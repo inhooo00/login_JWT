@@ -1,7 +1,6 @@
 package com.example.login_jwt.execption;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.skhuthon.skhuthon_0th_team9.global.common.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
