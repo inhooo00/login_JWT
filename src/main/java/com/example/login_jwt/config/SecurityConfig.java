@@ -1,5 +1,6 @@
 package com.example.login_jwt.config;
 
+import com.example.login_jwt.execption.CustomAuthenticationEntryPoint;
 import com.example.login_jwt.jwt.JwtFilter;
 import com.example.login_jwt.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
