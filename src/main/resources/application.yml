@@ -1,96 +1,101 @@
+# 공통
 spring:
-  profiles:
-    active: local, prod
-    group:
-      local: common
-      prod: common
-
----
-spring:
-  config:
-    activate:
-      on-profile: common
-
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ${DB_URL}
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
   jpa:
-    database: mysql
-    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
+        show_sql: true
         format_sql: true
-        use_sql_comments: true
-    defer-datasource-initialization: true
+    open-in-view: false
+
   servlet:
     multipart:
+      max-file-size: 10MB
+      max-request-size: 60MB
+
+springdoc:
+  packages-to-scan: com.example
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    tags-sorter: method
+    operations-sorter: alpha
+  api-docs:
+    path: /api-docs/json
+    groups:
       enabled: true
-      max-file-size: 50MB
-      max-request-size: 50MB
-
-  mail:
-    host: ${MAIL_HOST}
-    port: ${MAIL_PORT}
-    username: ${MAIL_USERNAME}
-    password: ${MAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-
-
-jwt:
-  secret: ${JWT_SECRET}
-  access-token-validity-in-milliseconds: ${ACCESS_TOKEN_VALIDITY}
-  refresh-token-validity-in-milliseconds: ${REFRESH_TOKEN_VALIDITY}
-
-oauth:
-  kakao:
-    rest-api-key: ${KAKAO_REST_API_KEY}
-    redirect-url: ${KAKAO_REDIRECT_URL}
-  google:
-    client-id: ${GOOGLE_CLIENT_ID}
-    client-secret: ${GOOGLE_CLIENT_SECRET}
-    redirect-url: ${GOOGLE_REDIRECT_URL}
-
-cors:
-  allowed-origins: ${CORS_ALLOWED_ORIGINS}
-
----
-spring:
-  config:
-    activate:
-      on-profile: local
-
-  datasource:
-    url: ${DB_URL}?rewriteBatchedStatements=true&profileSQL=true&logger=Slf4JLogger&maxQuerySizeToLog=999999
-  jpa:
-    show-sql: true
-
----
-spring:
-  config:
-    activate:
-      on-profile: prod
-
-  jpa:
-    show-sql: false
+  cache:
+    disabled: true
 
 cloud:
   aws:
+    credentials:
+      access-key: ${cloud.aws.credentials.access-key}
+      secret-key: ${cloud.aws.credentials.secret-key}
     s3:
-      bucket: ${S3_BUCKET}
+      bucket: ${cloud.aws.s3.bucket}
     region:
       static: ap-northeast-2
-      auto: false
     stack:
       auto: false
-    credentials:
-      AccessKey: ${S3_KEY}
-      SecretKey: ${S3_SECRET_KEY}
+
+cloudfront-domain-name: ${cloudfront-domain-name}
+
+FIREBASE_KEY: ${FIREBASE_KEY}
+
+---
+
+spring:
+  profiles:
+    active: prod
+  data:
+    redis:
+      host: ${spring.data.redis.host}
+      port: ${spring.data.redis.port}
+
+  datasource:
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    driver-class-name: ${spring.datasource.driver-class-name}
+    hikari:
+      maximum-pool-size: 30
+
+logging:
+  slack:
+    webhook-uri: ${logging.slack.webhook-uri}
+  config: ${logging.config}
+  level:
+    org.hibernate.sql: debug
+    org.hibernate.type: trace
+
+myapp:
+  api-url: ${myapp.api-url}
+  local-url: ${myapp.local-url}
+
+admin:
+  email: ${admin.email}
+
+---
+
+spring:
+  profiles:
+    active: dev
+  data:
+    redis:
+      host: ${spring.data.redis.host}
+      port: ${spring.data.redis.port}
+
+  datasource:
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    driver-class-name: ${spring.datasource.driver-class-name}
+    hikari:
+      maximum-pool-size: 30
+
+
+myapp:
+  api-url: ${myapp.api-url}
+  local-url: ${myapp.local-url}
