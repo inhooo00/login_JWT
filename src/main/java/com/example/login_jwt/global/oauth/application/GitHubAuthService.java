@@ -102,7 +102,6 @@ public class GitHubAuthService implements AuthService {
     private HttpEntity<MultiValueMap<String, String>> createRequestEntityWithAccessToken(String accessToken) {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.add("Authorization", String.format("token %s", accessToken));
-
         return new HttpEntity<>(requestHeaders);
     }
 
